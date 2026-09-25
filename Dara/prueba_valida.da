@@ -1,0 +1,21 @@
+nepew ipint edad;
+nepew ipint contador;
+nepew ipint resultado;
+
+repeapad edad;
+
+resultado <- edad * 2;
+contador <- 1;
+
+ipif edad >= 18 {
+    pripint resultado;
+} epelsepe {
+    pripint edad;
+}
+
+whipilepe contador <= 3 {
+    resultado <- resultado + contador;
+    contador <- contador + 1;
+}
+
+pripint resultado;
