@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 17 "dara.y"
+#line 19 "dara.y"
 
 #include "ast.h"
 
@@ -96,7 +96,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 21 "dara.y"
+#line 23 "dara.y"
 
     char *text;
     ASTNode *node;

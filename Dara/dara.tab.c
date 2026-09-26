@@ -80,10 +80,12 @@ int yylex(void);
 void yyerror(const char *mensaje);
 extern FILE *yyin;
 
+// Variables globales para el manejo de líneas y errores
+extern int yylineno;
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 
-#line 87 "dara.tab.c"
+#line 89 "dara.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -547,10 +549,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    82,    82,    88,    93,    98,   100,   102,   104,   106,
-     108,   112,   119,   123,   129,   142,   155,   168,   174,   180,
-     186,   192,   194,   196,   198,   200,   202,   206,   210,   214,
-     220,   224,   228,   234,   245,   249,   253
+       0,    84,    84,    90,    95,   100,   102,   104,   106,   108,
+     110,   114,   121,   125,   131,   144,   157,   170,   176,   182,
+     188,   194,   196,   198,   200,   202,   204,   208,   212,   216,
+     222,   226,   230,   236,   247,   251,   255
 };
 #endif
 
@@ -1151,292 +1153,292 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: instrucciones  */
-#line 83 "dara.y"
+#line 85 "dara.y"
       {
           raiz = (yyvsp[0].node);
       }
-#line 1159 "dara.tab.c"
+#line 1161 "dara.tab.c"
     break;
 
   case 3: /* instrucciones: instruccion instrucciones  */
-#line 89 "dara.y"
+#line 91 "dara.y"
       {
           (yyval.node) = ast_crear_bloque((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1167 "dara.tab.c"
+#line 1169 "dara.tab.c"
     break;
 
   case 4: /* instrucciones: %empty  */
-#line 93 "dara.y"
+#line 95 "dara.y"
       {
           (yyval.node) = NULL;
       }
-#line 1175 "dara.tab.c"
+#line 1177 "dara.tab.c"
     break;
 
   case 5: /* instruccion: declaracion  */
-#line 99 "dara.y"
+#line 101 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1181 "dara.tab.c"
+#line 1183 "dara.tab.c"
     break;
 
   case 6: /* instruccion: asignacion  */
-#line 101 "dara.y"
+#line 103 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1187 "dara.tab.c"
+#line 1189 "dara.tab.c"
     break;
 
   case 7: /* instruccion: entrada  */
-#line 103 "dara.y"
+#line 105 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1193 "dara.tab.c"
+#line 1195 "dara.tab.c"
     break;
 
   case 8: /* instruccion: salida  */
-#line 105 "dara.y"
+#line 107 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1199 "dara.tab.c"
+#line 1201 "dara.tab.c"
     break;
 
   case 9: /* instruccion: condicional  */
-#line 107 "dara.y"
+#line 109 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1205 "dara.tab.c"
+#line 1207 "dara.tab.c"
     break;
 
   case 10: /* instruccion: ciclo  */
-#line 109 "dara.y"
+#line 111 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1211 "dara.tab.c"
+#line 1213 "dara.tab.c"
     break;
 
   case 11: /* declaracion: NEPEW tipo IDENTIFICADOR PUNTO_COMA  */
-#line 113 "dara.y"
+#line 115 "dara.y"
       {
           tabla_agregar((yyvsp[-1].text), (yyvsp[-2].text));
           (yyval.node) = ast_crear_declaracion((yyvsp[-2].text), (yyvsp[-1].text));
       }
-#line 1220 "dara.tab.c"
+#line 1222 "dara.tab.c"
     break;
 
   case 12: /* tipo: IPINT  */
-#line 120 "dara.y"
+#line 122 "dara.y"
       {
           (yyval.text) = strdup("ipint");
       }
-#line 1228 "dara.tab.c"
+#line 1230 "dara.tab.c"
     break;
 
   case 13: /* tipo: REPEALPA  */
-#line 124 "dara.y"
+#line 126 "dara.y"
       {
           (yyval.text) = strdup("repealpa");
       }
-#line 1236 "dara.tab.c"
+#line 1238 "dara.tab.c"
     break;
 
   case 14: /* asignacion: IDENTIFICADOR ASIGNACION expresion PUNTO_COMA  */
-#line 130 "dara.y"
+#line 132 "dara.y"
       {
           if (!tabla_existe((yyvsp[-3].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[-3].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[-3].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_asignacion((yyvsp[-3].text), (yyvsp[-1].node));
       }
-#line 1251 "dara.tab.c"
+#line 1253 "dara.tab.c"
     break;
 
   case 15: /* entrada: REPEAPAD IDENTIFICADOR PUNTO_COMA  */
-#line 143 "dara.y"
+#line 145 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[-1].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[-1].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_entrada((yyvsp[-1].text));
       }
-#line 1266 "dara.tab.c"
+#line 1268 "dara.tab.c"
     break;
 
   case 16: /* salida: PRIPINT IDENTIFICADOR PUNTO_COMA  */
-#line 156 "dara.y"
+#line 158 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[-1].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[-1].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_salida((yyvsp[-1].text));
       }
-#line 1281 "dara.tab.c"
+#line 1283 "dara.tab.c"
     break;
 
   case 17: /* condicional: IPIF condicion bloque EPELSEPE bloque  */
-#line 169 "dara.y"
+#line 171 "dara.y"
       {
           (yyval.node) = ast_crear_condicional((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1289 "dara.tab.c"
+#line 1291 "dara.tab.c"
     break;
 
   case 18: /* ciclo: WHIPILEPE condicion bloque  */
-#line 175 "dara.y"
+#line 177 "dara.y"
       {
           (yyval.node) = ast_crear_ciclo((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1297 "dara.tab.c"
+#line 1299 "dara.tab.c"
     break;
 
   case 19: /* bloque: LLAVE_ABRE instrucciones LLAVE_CIERRA  */
-#line 181 "dara.y"
+#line 183 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1305 "dara.tab.c"
+#line 1307 "dara.tab.c"
     break;
 
   case 20: /* condicion: expresion operador_comparacion expresion  */
-#line 187 "dara.y"
+#line 189 "dara.y"
       {
           (yyval.node) = ast_crear_comparacion((yyvsp[-1].text), (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1313 "dara.tab.c"
+#line 1315 "dara.tab.c"
     break;
 
   case 21: /* operador_comparacion: MENOR  */
-#line 193 "dara.y"
+#line 195 "dara.y"
       { (yyval.text) = strdup("<"); }
-#line 1319 "dara.tab.c"
+#line 1321 "dara.tab.c"
     break;
 
   case 22: /* operador_comparacion: MAYOR  */
-#line 195 "dara.y"
+#line 197 "dara.y"
       { (yyval.text) = strdup(">"); }
-#line 1325 "dara.tab.c"
+#line 1327 "dara.tab.c"
     break;
 
   case 23: /* operador_comparacion: MENOR_IGUAL  */
-#line 197 "dara.y"
+#line 199 "dara.y"
       { (yyval.text) = strdup("<="); }
-#line 1331 "dara.tab.c"
+#line 1333 "dara.tab.c"
     break;
 
   case 24: /* operador_comparacion: MAYOR_IGUAL  */
-#line 199 "dara.y"
+#line 201 "dara.y"
       { (yyval.text) = strdup(">="); }
-#line 1337 "dara.tab.c"
+#line 1339 "dara.tab.c"
     break;
 
   case 25: /* operador_comparacion: IGUAL  */
-#line 201 "dara.y"
+#line 203 "dara.y"
       { (yyval.text) = strdup("=="); }
-#line 1343 "dara.tab.c"
+#line 1345 "dara.tab.c"
     break;
 
   case 26: /* operador_comparacion: DIFERENTE  */
-#line 203 "dara.y"
+#line 205 "dara.y"
       { (yyval.text) = strdup("!="); }
-#line 1349 "dara.tab.c"
+#line 1351 "dara.tab.c"
     break;
 
   case 27: /* expresion: expresion MAS termino  */
-#line 207 "dara.y"
+#line 209 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("+", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1357 "dara.tab.c"
+#line 1359 "dara.tab.c"
     break;
 
   case 28: /* expresion: expresion MENOS termino  */
-#line 211 "dara.y"
+#line 213 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("-", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1365 "dara.tab.c"
+#line 1367 "dara.tab.c"
     break;
 
   case 29: /* expresion: termino  */
-#line 215 "dara.y"
+#line 217 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1373 "dara.tab.c"
+#line 1375 "dara.tab.c"
     break;
 
   case 30: /* termino: termino POR factor  */
-#line 221 "dara.y"
+#line 223 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("*", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1381 "dara.tab.c"
+#line 1383 "dara.tab.c"
     break;
 
   case 31: /* termino: termino DIVISION factor  */
-#line 225 "dara.y"
+#line 227 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("/", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1389 "dara.tab.c"
+#line 1391 "dara.tab.c"
     break;
 
   case 32: /* termino: factor  */
-#line 229 "dara.y"
+#line 231 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1397 "dara.tab.c"
+#line 1399 "dara.tab.c"
     break;
 
   case 33: /* factor: IDENTIFICADOR  */
-#line 235 "dara.y"
+#line 237 "dara.y"
       {
           if (!tabla_existe((yyvsp[0].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[0].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[0].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_identificador((yyvsp[0].text));
       }
-#line 1412 "dara.tab.c"
+#line 1414 "dara.tab.c"
     break;
 
   case 34: /* factor: NUMERO_ENTERO  */
-#line 246 "dara.y"
+#line 248 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1420 "dara.tab.c"
+#line 1422 "dara.tab.c"
     break;
 
   case 35: /* factor: NUMERO_REAL  */
-#line 250 "dara.y"
+#line 252 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1428 "dara.tab.c"
+#line 1430 "dara.tab.c"
     break;
 
   case 36: /* factor: PARENTESIS_ABRE expresion PARENTESIS_CIERRA  */
-#line 254 "dara.y"
+#line 256 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1436 "dara.tab.c"
+#line 1438 "dara.tab.c"
     break;
 
 
-#line 1440 "dara.tab.c"
+#line 1442 "dara.tab.c"
 
       default: break;
     }
@@ -1629,10 +1631,11 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 258 "dara.y"
+#line 260 "dara.y"
+
 
 void yyerror(const char *mensaje) {
-    fprintf(stderr, "Error de sintaxis: %s\n", mensaje);
+    fprintf(stderr, "Error de sintaxis en la linea %d: %s\n", yylineno, mensaje);
     hubo_error = 1;
 }
 

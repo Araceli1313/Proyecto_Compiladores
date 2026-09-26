@@ -10,6 +10,8 @@ int yylex(void);
 void yyerror(const char *mensaje);
 extern FILE *yyin;
 
+// Variables globales para el manejo de líneas y errores
+extern int yylineno;
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 %}
@@ -130,8 +132,8 @@ asignacion
       {
           if (!tabla_existe($1)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $1);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $1);
               hubo_error = 1;
           }
 
@@ -143,8 +145,8 @@ entrada
       {
           if (!tabla_existe($2)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $2);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $2);
               hubo_error = 1;
           }
 
@@ -156,8 +158,8 @@ salida
       {
           if (!tabla_existe($2)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $2);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $2);
               hubo_error = 1;
           }
 
@@ -235,8 +237,8 @@ factor
       {
           if (!tabla_existe($1)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $1);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $1);
               hubo_error = 1;
           }
 
@@ -256,8 +258,9 @@ factor
       }
     ;
 %%
+
 void yyerror(const char *mensaje) {
-    fprintf(stderr, "Error de sintaxis: %s\n", mensaje);
+    fprintf(stderr, "Error de sintaxis en la linea %d: %s\n", yylineno, mensaje);
     hubo_error = 1;
 }
 
