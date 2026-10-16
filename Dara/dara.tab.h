@@ -62,32 +62,33 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     NEPEW = 258,                   /* NEPEW  */
     IPINT = 259,                   /* IPINT  */
-    REPEALPA = 260,                /* REPEALPA  */
-    REPEAPAD = 261,                /* REPEAPAD  */
-    PRIPINT = 262,                 /* PRIPINT  */
-    IPIF = 263,                    /* IPIF  */
-    EPELSEPE = 264,                /* EPELSEPE  */
-    WHIPILEPE = 265,               /* WHIPILEPE  */
-    ASIGNACION = 266,              /* ASIGNACION  */
-    MENOR = 267,                   /* MENOR  */
-    MAYOR = 268,                   /* MAYOR  */
-    MENOR_IGUAL = 269,             /* MENOR_IGUAL  */
-    MAYOR_IGUAL = 270,             /* MAYOR_IGUAL  */
-    IGUAL = 271,                   /* IGUAL  */
-    DIFERENTE = 272,               /* DIFERENTE  */
-    MAS = 273,                     /* MAS  */
-    MENOS = 274,                   /* MENOS  */
-    POR = 275,                     /* POR  */
-    DIVISION = 276,                /* DIVISION  */
-    PUNTO_COMA = 277,              /* PUNTO_COMA  */
-    LLAVE_ABRE = 278,              /* LLAVE_ABRE  */
-    LLAVE_CIERRA = 279,            /* LLAVE_CIERRA  */
-    PARENTESIS_ABRE = 280,         /* PARENTESIS_ABRE  */
-    PARENTESIS_CIERRA = 281,       /* PARENTESIS_CIERRA  */
-    IDENTIFICADOR = 282,           /* IDENTIFICADOR  */
-    NUMERO_ENTERO = 283,           /* NUMERO_ENTERO  */
-    NUMERO_REAL = 284,             /* NUMERO_REAL  */
-    ERROR_LEXICO = 285             /* ERROR_LEXICO  */
+    IPFLOAT = 260,                 /* IPFLOAT  */
+    REPEALPA = 261,                /* REPEALPA  */
+    REPEAPAD = 262,                /* REPEAPAD  */
+    PRIPINT = 263,                 /* PRIPINT  */
+    IPIF = 264,                    /* IPIF  */
+    EPELSEPE = 265,                /* EPELSEPE  */
+    WHIPILEPE = 266,               /* WHIPILEPE  */
+    ASIGNACION = 267,              /* ASIGNACION  */
+    MENOR = 268,                   /* MENOR  */
+    MAYOR = 269,                   /* MAYOR  */
+    MENOR_IGUAL = 270,             /* MENOR_IGUAL  */
+    MAYOR_IGUAL = 271,             /* MAYOR_IGUAL  */
+    IGUAL = 272,                   /* IGUAL  */
+    DIFERENTE = 273,               /* DIFERENTE  */
+    MAS = 274,                     /* MAS  */
+    MENOS = 275,                   /* MENOS  */
+    POR = 276,                     /* POR  */
+    DIVISION = 277,                /* DIVISION  */
+    PUNTO_COMA = 278,              /* PUNTO_COMA  */
+    LLAVE_ABRE = 279,              /* LLAVE_ABRE  */
+    LLAVE_CIERRA = 280,            /* LLAVE_CIERRA  */
+    PARENTESIS_ABRE = 281,         /* PARENTESIS_ABRE  */
+    PARENTESIS_CIERRA = 282,       /* PARENTESIS_CIERRA  */
+    IDENTIFICADOR = 283,           /* IDENTIFICADOR  */
+    NUMERO_ENTERO = 284,           /* NUMERO_ENTERO  */
+    NUMERO_REAL = 285,             /* NUMERO_REAL  */
+    ERROR_LEXICO = 286             /* ERROR_LEXICO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -101,7 +102,7 @@ union YYSTYPE
     char *text;
     ASTNode *node;
 
-#line 105 "dara.tab.h"
+#line 106 "dara.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
