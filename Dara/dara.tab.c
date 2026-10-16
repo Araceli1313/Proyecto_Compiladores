@@ -75,15 +75,18 @@
 
 #include "ast.h"
 #include "symbol_table.h"
+#include "codegen_f1.h"
 
 int yylex(void);
 void yyerror(const char *mensaje);
 extern FILE *yyin;
 
+// Variables globales para el manejo de líneas y errores
+extern int yylineno;
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 
-#line 87 "dara.tab.c"
+#line 90 "dara.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -545,12 +548,12 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    82,    82,    88,    93,    98,   100,   102,   104,   106,
-     108,   112,   119,   123,   129,   142,   155,   168,   174,   180,
-     186,   192,   194,   196,   198,   200,   202,   206,   210,   214,
-     220,   224,   228,   234,   245,   249,   253
+       0,    85,    85,    91,    96,   101,   103,   105,   107,   109,
+     111,   115,   122,   126,   132,   145,   158,   171,   177,   183,
+     189,   195,   197,   199,   201,   203,   205,   209,   213,   217,
+     223,   227,   231,   237,   248,   252,   256
 };
 #endif
 
@@ -1151,292 +1154,292 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: instrucciones  */
-#line 83 "dara.y"
+#line 86 "dara.y"
       {
           raiz = (yyvsp[0].node);
       }
-#line 1159 "dara.tab.c"
+#line 1162 "dara.tab.c"
     break;
 
   case 3: /* instrucciones: instruccion instrucciones  */
-#line 89 "dara.y"
+#line 92 "dara.y"
       {
           (yyval.node) = ast_crear_bloque((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1167 "dara.tab.c"
+#line 1170 "dara.tab.c"
     break;
 
   case 4: /* instrucciones: %empty  */
-#line 93 "dara.y"
+#line 96 "dara.y"
       {
           (yyval.node) = NULL;
       }
-#line 1175 "dara.tab.c"
+#line 1178 "dara.tab.c"
     break;
 
   case 5: /* instruccion: declaracion  */
-#line 99 "dara.y"
+#line 102 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1181 "dara.tab.c"
+#line 1184 "dara.tab.c"
     break;
 
   case 6: /* instruccion: asignacion  */
-#line 101 "dara.y"
+#line 104 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1187 "dara.tab.c"
+#line 1190 "dara.tab.c"
     break;
 
   case 7: /* instruccion: entrada  */
-#line 103 "dara.y"
+#line 106 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1193 "dara.tab.c"
+#line 1196 "dara.tab.c"
     break;
 
   case 8: /* instruccion: salida  */
-#line 105 "dara.y"
+#line 108 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1199 "dara.tab.c"
+#line 1202 "dara.tab.c"
     break;
 
   case 9: /* instruccion: condicional  */
-#line 107 "dara.y"
+#line 110 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1205 "dara.tab.c"
+#line 1208 "dara.tab.c"
     break;
 
   case 10: /* instruccion: ciclo  */
-#line 109 "dara.y"
+#line 112 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1211 "dara.tab.c"
+#line 1214 "dara.tab.c"
     break;
 
   case 11: /* declaracion: NEPEW tipo IDENTIFICADOR PUNTO_COMA  */
-#line 113 "dara.y"
+#line 116 "dara.y"
       {
           tabla_agregar((yyvsp[-1].text), (yyvsp[-2].text));
           (yyval.node) = ast_crear_declaracion((yyvsp[-2].text), (yyvsp[-1].text));
       }
-#line 1220 "dara.tab.c"
+#line 1223 "dara.tab.c"
     break;
 
   case 12: /* tipo: IPINT  */
-#line 120 "dara.y"
+#line 123 "dara.y"
       {
           (yyval.text) = strdup("ipint");
       }
-#line 1228 "dara.tab.c"
+#line 1231 "dara.tab.c"
     break;
 
   case 13: /* tipo: REPEALPA  */
-#line 124 "dara.y"
+#line 127 "dara.y"
       {
           (yyval.text) = strdup("repealpa");
       }
-#line 1236 "dara.tab.c"
+#line 1239 "dara.tab.c"
     break;
 
   case 14: /* asignacion: IDENTIFICADOR ASIGNACION expresion PUNTO_COMA  */
-#line 130 "dara.y"
+#line 133 "dara.y"
       {
           if (!tabla_existe((yyvsp[-3].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[-3].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[-3].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_asignacion((yyvsp[-3].text), (yyvsp[-1].node));
       }
-#line 1251 "dara.tab.c"
+#line 1254 "dara.tab.c"
     break;
 
   case 15: /* entrada: REPEAPAD IDENTIFICADOR PUNTO_COMA  */
-#line 143 "dara.y"
+#line 146 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[-1].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[-1].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_entrada((yyvsp[-1].text));
       }
-#line 1266 "dara.tab.c"
+#line 1269 "dara.tab.c"
     break;
 
   case 16: /* salida: PRIPINT IDENTIFICADOR PUNTO_COMA  */
-#line 156 "dara.y"
+#line 159 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[-1].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[-1].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_salida((yyvsp[-1].text));
       }
-#line 1281 "dara.tab.c"
+#line 1284 "dara.tab.c"
     break;
 
   case 17: /* condicional: IPIF condicion bloque EPELSEPE bloque  */
-#line 169 "dara.y"
+#line 172 "dara.y"
       {
           (yyval.node) = ast_crear_condicional((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1289 "dara.tab.c"
+#line 1292 "dara.tab.c"
     break;
 
   case 18: /* ciclo: WHIPILEPE condicion bloque  */
-#line 175 "dara.y"
+#line 178 "dara.y"
       {
           (yyval.node) = ast_crear_ciclo((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1297 "dara.tab.c"
+#line 1300 "dara.tab.c"
     break;
 
   case 19: /* bloque: LLAVE_ABRE instrucciones LLAVE_CIERRA  */
-#line 181 "dara.y"
+#line 184 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1305 "dara.tab.c"
+#line 1308 "dara.tab.c"
     break;
 
   case 20: /* condicion: expresion operador_comparacion expresion  */
-#line 187 "dara.y"
+#line 190 "dara.y"
       {
           (yyval.node) = ast_crear_comparacion((yyvsp[-1].text), (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1313 "dara.tab.c"
+#line 1316 "dara.tab.c"
     break;
 
   case 21: /* operador_comparacion: MENOR  */
-#line 193 "dara.y"
+#line 196 "dara.y"
       { (yyval.text) = strdup("<"); }
-#line 1319 "dara.tab.c"
+#line 1322 "dara.tab.c"
     break;
 
   case 22: /* operador_comparacion: MAYOR  */
-#line 195 "dara.y"
+#line 198 "dara.y"
       { (yyval.text) = strdup(">"); }
-#line 1325 "dara.tab.c"
+#line 1328 "dara.tab.c"
     break;
 
   case 23: /* operador_comparacion: MENOR_IGUAL  */
-#line 197 "dara.y"
+#line 200 "dara.y"
       { (yyval.text) = strdup("<="); }
-#line 1331 "dara.tab.c"
+#line 1334 "dara.tab.c"
     break;
 
   case 24: /* operador_comparacion: MAYOR_IGUAL  */
-#line 199 "dara.y"
+#line 202 "dara.y"
       { (yyval.text) = strdup(">="); }
-#line 1337 "dara.tab.c"
+#line 1340 "dara.tab.c"
     break;
 
   case 25: /* operador_comparacion: IGUAL  */
-#line 201 "dara.y"
+#line 204 "dara.y"
       { (yyval.text) = strdup("=="); }
-#line 1343 "dara.tab.c"
+#line 1346 "dara.tab.c"
     break;
 
   case 26: /* operador_comparacion: DIFERENTE  */
-#line 203 "dara.y"
+#line 206 "dara.y"
       { (yyval.text) = strdup("!="); }
-#line 1349 "dara.tab.c"
+#line 1352 "dara.tab.c"
     break;
 
   case 27: /* expresion: expresion MAS termino  */
-#line 207 "dara.y"
+#line 210 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("+", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1357 "dara.tab.c"
+#line 1360 "dara.tab.c"
     break;
 
   case 28: /* expresion: expresion MENOS termino  */
-#line 211 "dara.y"
+#line 214 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("-", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1365 "dara.tab.c"
+#line 1368 "dara.tab.c"
     break;
 
   case 29: /* expresion: termino  */
-#line 215 "dara.y"
+#line 218 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1373 "dara.tab.c"
+#line 1376 "dara.tab.c"
     break;
 
   case 30: /* termino: termino POR factor  */
-#line 221 "dara.y"
+#line 224 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("*", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1381 "dara.tab.c"
+#line 1384 "dara.tab.c"
     break;
 
   case 31: /* termino: termino DIVISION factor  */
-#line 225 "dara.y"
+#line 228 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("/", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1389 "dara.tab.c"
+#line 1392 "dara.tab.c"
     break;
 
   case 32: /* termino: factor  */
-#line 229 "dara.y"
+#line 232 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1397 "dara.tab.c"
+#line 1400 "dara.tab.c"
     break;
 
   case 33: /* factor: IDENTIFICADOR  */
-#line 235 "dara.y"
+#line 238 "dara.y"
       {
           if (!tabla_existe((yyvsp[0].text))) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      (yyvsp[0].text));
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, (yyvsp[0].text));
               hubo_error = 1;
           }
 
           (yyval.node) = ast_crear_identificador((yyvsp[0].text));
       }
-#line 1412 "dara.tab.c"
+#line 1415 "dara.tab.c"
     break;
 
   case 34: /* factor: NUMERO_ENTERO  */
-#line 246 "dara.y"
+#line 249 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1420 "dara.tab.c"
+#line 1423 "dara.tab.c"
     break;
 
   case 35: /* factor: NUMERO_REAL  */
-#line 250 "dara.y"
+#line 253 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1428 "dara.tab.c"
+#line 1431 "dara.tab.c"
     break;
 
   case 36: /* factor: PARENTESIS_ABRE expresion PARENTESIS_CIERRA  */
-#line 254 "dara.y"
+#line 257 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1436 "dara.tab.c"
+#line 1439 "dara.tab.c"
     break;
 
 
-#line 1440 "dara.tab.c"
+#line 1443 "dara.tab.c"
 
       default: break;
     }
@@ -1629,18 +1632,21 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 258 "dara.y"
+#line 261 "dara.y"
+
 
 void yyerror(const char *mensaje) {
-    fprintf(stderr, "Error de sintaxis: %s\n", mensaje);
+    fprintf(stderr, "Error de sintaxis en la linea %d: %s\n", yylineno, mensaje);
     hubo_error = 1;
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
-        fprintf(stderr, "Uso: %s archivo.da\n", argv[0]);
+    if (argc < 2) {
+        fprintf(stderr, "Uso: %s archivo.da [salida.f1]\n", argv[0]);
         return 1;
     }
+
+    const char *archivo_salida = (argc >= 3) ? argv[2] : "F1Code.f1";
 
     FILE *archivo = fopen(argv[1], "r");
 
@@ -1662,12 +1668,15 @@ int main(int argc, char **argv) {
         printf("\n=== TABLA DE SIMBOLOS ===\n");
         tabla_imprimir();
 
-        printf("\nPrograma valido.\n");
+        printf("\n[OK] Programa valido.\n");
+
+        // Generar archivo F1Code (.f1)
+        generate_f1code(raiz, archivo_salida);
 
         return 0;
     }
 
-    printf("\nPrograma invalido.\n");
+    printf("\n[Error] Programa invalido.\n");
 
     return 1;
 }

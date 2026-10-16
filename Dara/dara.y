@@ -5,11 +5,14 @@
 
 #include "ast.h"
 #include "symbol_table.h"
+#include "codegen_f1.h"
 
 int yylex(void);
 void yyerror(const char *mensaje);
 extern FILE *yyin;
 
+// Variables globales para el manejo de líneas y errores
+extern int yylineno;
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 %}
@@ -130,8 +133,8 @@ asignacion
       {
           if (!tabla_existe($1)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $1);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $1);
               hubo_error = 1;
           }
 
@@ -143,8 +146,8 @@ entrada
       {
           if (!tabla_existe($2)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $2);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $2);
               hubo_error = 1;
           }
 
@@ -156,8 +159,8 @@ salida
       {
           if (!tabla_existe($2)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $2);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $2);
               hubo_error = 1;
           }
 
@@ -235,8 +238,8 @@ factor
       {
           if (!tabla_existe($1)) {
               fprintf(stderr,
-                      "Error: la variable '%s' no ha sido declarada.\n",
-                      $1);
+                      "Error semantico en la linea %d: la variable '%s' no ha sido declarada.\n",
+                      yylineno, $1);
               hubo_error = 1;
           }
 
@@ -256,16 +259,19 @@ factor
       }
     ;
 %%
+
 void yyerror(const char *mensaje) {
-    fprintf(stderr, "Error de sintaxis: %s\n", mensaje);
+    fprintf(stderr, "Error de sintaxis en la linea %d: %s\n", yylineno, mensaje);
     hubo_error = 1;
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
-        fprintf(stderr, "Uso: %s archivo.da\n", argv[0]);
+    if (argc < 2) {
+        fprintf(stderr, "Uso: %s archivo.da [salida.f1]\n", argv[0]);
         return 1;
     }
+
+    const char *archivo_salida = (argc >= 3) ? argv[2] : "F1Code.f1";
 
     FILE *archivo = fopen(argv[1], "r");
 
@@ -287,12 +293,15 @@ int main(int argc, char **argv) {
         printf("\n=== TABLA DE SIMBOLOS ===\n");
         tabla_imprimir();
 
-        printf("\nPrograma valido.\n");
+        printf("\n[OK] Programa valido.\n");
+
+        // Generar archivo F1Code (.f1)
+        generate_f1code(raiz, archivo_salida);
 
         return 0;
     }
 
-    printf("\nPrograma invalido.\n");
+    printf("\n[Error] Programa invalido.\n");
 
     return 1;
 }

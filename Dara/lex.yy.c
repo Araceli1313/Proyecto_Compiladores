@@ -1,5 +1,6 @@
+#line 1 "lex.yy.c"
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -367,8 +368,8 @@ static const flex_int16_t yy_accept[85] =
     {   0,
         0,    0,   33,   31,   30,   30,   31,   23,   24,   18,
        16,   17,   19,   26,   20,   14,   31,   15,   27,   27,
-       27,   27,   27,   27,   27,   21,   22,   30,   13,    0,
-       28,    0,   26,    9,   10,   12,   11,   27,   27,   27,
+       27,   27,   27,   27,   27,   21,   22,   30,   11,    0,
+       28,    0,   26,    9,   12,   10,   13,   27,   27,   27,
        27,   27,   27,   27,    0,    0,   28,   25,   27,   27,
        27,   27,   27,   27,   29,   27,    6,   27,   27,   27,
        27,   27,   27,    2,    1,   27,   27,   27,   27,   27,
@@ -501,8 +502,10 @@ char *yytext;
 #include <string.h>
 #include "ast.h"
 #include "dara.tab.h"
-#line 504 "lex.yy.c"
-#line 505 "lex.yy.c"
+
+extern int yylineno;
+#line 507 "lex.yy.c"
+#line 508 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -719,10 +722,10 @@ YY_DECL
 		}
 
 	{
-#line 11 "dara.l"
+#line 13 "dara.l"
 
 
-#line 725 "lex.yy.c"
+#line 728 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -781,167 +784,179 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 13 "dara.l"
+#line 15 "dara.l"
 { return NEPEW; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "dara.l"
+#line 16 "dara.l"
 { return IPINT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "dara.l"
+#line 17 "dara.l"
 { return REPEALPA; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 16 "dara.l"
+#line 18 "dara.l"
 { return REPEAPAD; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 17 "dara.l"
+#line 19 "dara.l"
 { return PRIPINT; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 18 "dara.l"
+#line 20 "dara.l"
 { return IPIF; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 19 "dara.l"
+#line 21 "dara.l"
 { return EPELSEPE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 20 "dara.l"
+#line 22 "dara.l"
 { return WHIPILEPE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 22 "dara.l"
+#line 24 "dara.l"
 { return ASIGNACION; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "dara.l"
-{ return MENOR_IGUAL; }
-	YY_BREAK
-case 11:
-YY_RULE_SETUP
-#line 25 "dara.l"
-{ return MAYOR_IGUAL; }
-	YY_BREAK
-case 12:
-YY_RULE_SETUP
 #line 26 "dara.l"
 { return IGUAL; }
 	YY_BREAK
-case 13:
+case 11:
 YY_RULE_SETUP
 #line 27 "dara.l"
 { return DIFERENTE; }
 	YY_BREAK
-case 14:
+case 12:
 YY_RULE_SETUP
 #line 28 "dara.l"
+{ return MENOR_IGUAL; }
+	YY_BREAK
+case 13:
+YY_RULE_SETUP
+#line 29 "dara.l"
+{ return MAYOR_IGUAL; }
+	YY_BREAK
+case 14:
+YY_RULE_SETUP
+#line 30 "dara.l"
 { return MENOR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 29 "dara.l"
+#line 31 "dara.l"
 { return MAYOR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 31 "dara.l"
+#line 33 "dara.l"
 { return MAS; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 32 "dara.l"
+#line 34 "dara.l"
 { return MENOS; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 33 "dara.l"
+#line 35 "dara.l"
 { return POR; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 34 "dara.l"
+#line 36 "dara.l"
 { return DIVISION; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 36 "dara.l"
+#line 38 "dara.l"
 { return PUNTO_COMA; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 37 "dara.l"
+#line 39 "dara.l"
 { return LLAVE_ABRE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 38 "dara.l"
+#line 40 "dara.l"
 { return LLAVE_CIERRA; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 39 "dara.l"
+#line 41 "dara.l"
 { return PARENTESIS_ABRE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 40 "dara.l"
+#line 42 "dara.l"
 { return PARENTESIS_CIERRA; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 42 "dara.l"
-{ yylval.text = strdup(yytext); return NUMERO_REAL; }
+#line 44 "dara.l"
+{
+    yylval.text = strdup(yytext);
+    return NUMERO_REAL;
+}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 43 "dara.l"
-{ yylval.text = strdup(yytext); return NUMERO_ENTERO; }
+#line 49 "dara.l"
+{
+    yylval.text = strdup(yytext);
+    return NUMERO_ENTERO;
+}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 44 "dara.l"
-{ yylval.text = strdup(yytext); return IDENTIFICADOR; }
+#line 54 "dara.l"
+{
+    yylval.text = strdup(yytext);
+    return IDENTIFICADOR;
+}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 46 "dara.l"
-{ /* Ignorar comentarios de una línea */ }
+#line 59 "dara.l"
+{ /* Ignorar comentarios de una linea */ }
 	YY_BREAK
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 47 "dara.l"
-{ /* Ignorar comentarios multilínea */ }
+#line 60 "dara.l"
+{ /* Ignorar comentarios multilinea */ }
 	YY_BREAK
 case 30:
 /* rule 30 can match eol */
 YY_RULE_SETUP
-#line 48 "dara.l"
+#line 61 "dara.l"
 { /* Ignorar espacios en blanco */ }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 50 "dara.l"
-{ return ERROR_LEXICO; }
+#line 63 "dara.l"
+{
+    printf("[Error Lexico] Caracter no reconocido: '%s'\n", yytext);
+    return ERROR_LEXICO;
+}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 52 "dara.l"
+#line 68 "dara.l"
 ECHO;
 	YY_BREAK
-#line 944 "lex.yy.c"
+#line 959 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1946,6 +1961,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 52 "dara.l"
-
+#line 68 "dara.l"
 
