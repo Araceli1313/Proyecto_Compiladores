@@ -1,5 +1,6 @@
+#line 1 "lex.yy.c"
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -162,27 +163,8 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
-     *       access to the local variable yy_act. Since yyless() is a macro, it would break
-     *       existing scanners that call yyless() from OUTSIDE yylex.
-     *       One obvious solution it to make yy_act a global. I tried that, and saw
-     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
-     *       normally declared as a register variable-- so it is not worth it.
-     */
-    #define  YY_LESS_LINENO(n) \
-            do { \
-                int yyl;\
-                for ( yyl = n; yyl < yyleng; ++yyl )\
-                    if ( yytext[yyl] == '\n' )\
-                        --yylineno;\
-            }while(0)
-    #define YY_LINENO_REWIND_TO(dst) \
-            do {\
-                const char *p;\
-                for ( p = yy_cp-1; p >= (dst); --p)\
-                    if ( *p == '\n' )\
-                        --yylineno;\
-            }while(0)
+    #define YY_LESS_LINENO(n)
+    #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -386,8 +368,8 @@ static const flex_int16_t yy_accept[85] =
     {   0,
         0,    0,   33,   31,   30,   30,   31,   23,   24,   18,
        16,   17,   19,   26,   20,   14,   31,   15,   27,   27,
-       27,   27,   27,   27,   27,   21,   22,   30,   13,    0,
-       28,    0,   26,    9,   10,   12,   11,   27,   27,   27,
+       27,   27,   27,   27,   27,   21,   22,   30,   11,    0,
+       28,    0,   26,    9,   12,   10,   13,   27,   27,   27,
        27,   27,   27,   27,    0,    0,   28,   25,   27,   27,
        27,   27,   27,   27,   29,   27,    6,   27,   27,   27,
        27,   27,   27,    2,    1,   27,   27,   27,   27,   27,
@@ -499,12 +481,6 @@ static const flex_int16_t yy_chk[138] =
        84,   84,   84,   84,   84,   84,   84
     } ;
 
-/* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[33] =
-    {   0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0,     };
-
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -526,8 +502,10 @@ char *yytext;
 #include <string.h>
 #include "ast.h"
 #include "dara.tab.h"
-#line 529 "lex.yy.c"
-#line 530 "lex.yy.c"
+
+extern int yylineno;
+#line 507 "lex.yy.c"
+#line 508 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -744,10 +722,10 @@ YY_DECL
 		}
 
 	{
-#line 12 "dara.l"
+#line 13 "dara.l"
 
 
-#line 750 "lex.yy.c"
+#line 728 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -793,16 +771,6 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
-		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
-			{
-			int yyl;
-			for ( yyl = 0; yyl < yyleng; ++yyl )
-				if ( yytext[yyl] == '\n' )
-					
-    yylineno++;
-;
-			}
-
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -816,167 +784,179 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "dara.l"
+#line 15 "dara.l"
 { return NEPEW; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 15 "dara.l"
+#line 16 "dara.l"
 { return IPINT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 16 "dara.l"
+#line 17 "dara.l"
 { return REPEALPA; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 17 "dara.l"
+#line 18 "dara.l"
 { return REPEAPAD; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 18 "dara.l"
+#line 19 "dara.l"
 { return PRIPINT; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 19 "dara.l"
+#line 20 "dara.l"
 { return IPIF; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 20 "dara.l"
+#line 21 "dara.l"
 { return EPELSEPE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 21 "dara.l"
+#line 22 "dara.l"
 { return WHIPILEPE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "dara.l"
+#line 24 "dara.l"
 { return ASIGNACION; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 25 "dara.l"
-{ return MENOR_IGUAL; }
+#line 26 "dara.l"
+{ return IGUAL; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 26 "dara.l"
-{ return MAYOR_IGUAL; }
+#line 27 "dara.l"
+{ return DIFERENTE; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 27 "dara.l"
-{ return IGUAL; }
+#line 28 "dara.l"
+{ return MENOR_IGUAL; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 28 "dara.l"
-{ return DIFERENTE; }
+#line 29 "dara.l"
+{ return MAYOR_IGUAL; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 29 "dara.l"
+#line 30 "dara.l"
 { return MENOR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 30 "dara.l"
+#line 31 "dara.l"
 { return MAYOR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 32 "dara.l"
+#line 33 "dara.l"
 { return MAS; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 33 "dara.l"
+#line 34 "dara.l"
 { return MENOS; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 34 "dara.l"
+#line 35 "dara.l"
 { return POR; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 35 "dara.l"
+#line 36 "dara.l"
 { return DIVISION; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 37 "dara.l"
+#line 38 "dara.l"
 { return PUNTO_COMA; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 38 "dara.l"
+#line 39 "dara.l"
 { return LLAVE_ABRE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 39 "dara.l"
+#line 40 "dara.l"
 { return LLAVE_CIERRA; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 40 "dara.l"
+#line 41 "dara.l"
 { return PARENTESIS_ABRE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 41 "dara.l"
+#line 42 "dara.l"
 { return PARENTESIS_CIERRA; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 43 "dara.l"
-{ yylval.text = strdup(yytext); return NUMERO_REAL; }
+#line 44 "dara.l"
+{
+    yylval.text = strdup(yytext);
+    return NUMERO_REAL;
+}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 44 "dara.l"
-{ yylval.text = strdup(yytext); return NUMERO_ENTERO; }
+#line 49 "dara.l"
+{
+    yylval.text = strdup(yytext);
+    return NUMERO_ENTERO;
+}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 45 "dara.l"
-{ yylval.text = strdup(yytext); return IDENTIFICADOR; }
+#line 54 "dara.l"
+{
+    yylval.text = strdup(yytext);
+    return IDENTIFICADOR;
+}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 47 "dara.l"
-{ /* Ignorar comentarios de una línea */ }
+#line 59 "dara.l"
+{ /* Ignorar comentarios de una linea */ }
 	YY_BREAK
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 48 "dara.l"
-{ /* Ignorar comentarios multilínea */ }
+#line 60 "dara.l"
+{ /* Ignorar comentarios multilinea */ }
 	YY_BREAK
 case 30:
 /* rule 30 can match eol */
 YY_RULE_SETUP
-#line 49 "dara.l"
+#line 61 "dara.l"
 { /* Ignorar espacios en blanco */ }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 51 "dara.l"
-{ return ERROR_LEXICO; }
+#line 63 "dara.l"
+{
+    printf("[Error Lexico] Caracter no reconocido: '%s'\n", yytext);
+    return ERROR_LEXICO;
+}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 53 "dara.l"
+#line 68 "dara.l"
 ECHO;
 	YY_BREAK
-#line 979 "lex.yy.c"
+#line 959 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1344,10 +1324,6 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
-    if ( c == '\n' ){
-        --yylineno;
-    }
-
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1424,11 +1400,6 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
-
-	if ( c == '\n' )
-		
-    yylineno++;
-;
 
 	return c;
 }
@@ -1896,9 +1867,6 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
-    /* We do not touch yylineno unless the option is enabled. */
-    yylineno =  1;
-    
     (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -1993,6 +1961,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 53 "dara.l"
-
+#line 68 "dara.l"
 

@@ -75,6 +75,7 @@
 
 #include "ast.h"
 #include "symbol_table.h"
+#include "codegen_f1.h"
 
 int yylex(void);
 void yyerror(const char *mensaje);
@@ -85,7 +86,7 @@ extern int yylineno;
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 
-#line 89 "dara.tab.c"
+#line 90 "dara.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -547,12 +548,12 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    84,    84,    90,    95,   100,   102,   104,   106,   108,
-     110,   114,   121,   125,   131,   144,   157,   170,   176,   182,
-     188,   194,   196,   198,   200,   202,   204,   208,   212,   216,
-     222,   226,   230,   236,   247,   251,   255
+       0,    85,    85,    91,    96,   101,   103,   105,   107,   109,
+     111,   115,   122,   126,   132,   145,   158,   171,   177,   183,
+     189,   195,   197,   199,   201,   203,   205,   209,   213,   217,
+     223,   227,   231,   237,   248,   252,   256
 };
 #endif
 
@@ -1153,92 +1154,92 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: instrucciones  */
-#line 85 "dara.y"
+#line 86 "dara.y"
       {
           raiz = (yyvsp[0].node);
       }
-#line 1161 "dara.tab.c"
+#line 1162 "dara.tab.c"
     break;
 
   case 3: /* instrucciones: instruccion instrucciones  */
-#line 91 "dara.y"
+#line 92 "dara.y"
       {
           (yyval.node) = ast_crear_bloque((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1169 "dara.tab.c"
+#line 1170 "dara.tab.c"
     break;
 
   case 4: /* instrucciones: %empty  */
-#line 95 "dara.y"
+#line 96 "dara.y"
       {
           (yyval.node) = NULL;
       }
-#line 1177 "dara.tab.c"
+#line 1178 "dara.tab.c"
     break;
 
   case 5: /* instruccion: declaracion  */
-#line 101 "dara.y"
+#line 102 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1183 "dara.tab.c"
+#line 1184 "dara.tab.c"
     break;
 
   case 6: /* instruccion: asignacion  */
-#line 103 "dara.y"
+#line 104 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1189 "dara.tab.c"
+#line 1190 "dara.tab.c"
     break;
 
   case 7: /* instruccion: entrada  */
-#line 105 "dara.y"
+#line 106 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1195 "dara.tab.c"
+#line 1196 "dara.tab.c"
     break;
 
   case 8: /* instruccion: salida  */
-#line 107 "dara.y"
+#line 108 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1201 "dara.tab.c"
+#line 1202 "dara.tab.c"
     break;
 
   case 9: /* instruccion: condicional  */
-#line 109 "dara.y"
+#line 110 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1207 "dara.tab.c"
+#line 1208 "dara.tab.c"
     break;
 
   case 10: /* instruccion: ciclo  */
-#line 111 "dara.y"
+#line 112 "dara.y"
       { (yyval.node) = (yyvsp[0].node); }
-#line 1213 "dara.tab.c"
+#line 1214 "dara.tab.c"
     break;
 
   case 11: /* declaracion: NEPEW tipo IDENTIFICADOR PUNTO_COMA  */
-#line 115 "dara.y"
+#line 116 "dara.y"
       {
           tabla_agregar((yyvsp[-1].text), (yyvsp[-2].text));
           (yyval.node) = ast_crear_declaracion((yyvsp[-2].text), (yyvsp[-1].text));
       }
-#line 1222 "dara.tab.c"
+#line 1223 "dara.tab.c"
     break;
 
   case 12: /* tipo: IPINT  */
-#line 122 "dara.y"
+#line 123 "dara.y"
       {
           (yyval.text) = strdup("ipint");
       }
-#line 1230 "dara.tab.c"
+#line 1231 "dara.tab.c"
     break;
 
   case 13: /* tipo: REPEALPA  */
-#line 126 "dara.y"
+#line 127 "dara.y"
       {
           (yyval.text) = strdup("repealpa");
       }
-#line 1238 "dara.tab.c"
+#line 1239 "dara.tab.c"
     break;
 
   case 14: /* asignacion: IDENTIFICADOR ASIGNACION expresion PUNTO_COMA  */
-#line 132 "dara.y"
+#line 133 "dara.y"
       {
           if (!tabla_existe((yyvsp[-3].text))) {
               fprintf(stderr,
@@ -1249,11 +1250,11 @@ yyreduce:
 
           (yyval.node) = ast_crear_asignacion((yyvsp[-3].text), (yyvsp[-1].node));
       }
-#line 1253 "dara.tab.c"
+#line 1254 "dara.tab.c"
     break;
 
   case 15: /* entrada: REPEAPAD IDENTIFICADOR PUNTO_COMA  */
-#line 145 "dara.y"
+#line 146 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
@@ -1264,11 +1265,11 @@ yyreduce:
 
           (yyval.node) = ast_crear_entrada((yyvsp[-1].text));
       }
-#line 1268 "dara.tab.c"
+#line 1269 "dara.tab.c"
     break;
 
   case 16: /* salida: PRIPINT IDENTIFICADOR PUNTO_COMA  */
-#line 158 "dara.y"
+#line 159 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
@@ -1279,127 +1280,127 @@ yyreduce:
 
           (yyval.node) = ast_crear_salida((yyvsp[-1].text));
       }
-#line 1283 "dara.tab.c"
+#line 1284 "dara.tab.c"
     break;
 
   case 17: /* condicional: IPIF condicion bloque EPELSEPE bloque  */
-#line 171 "dara.y"
+#line 172 "dara.y"
       {
           (yyval.node) = ast_crear_condicional((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1291 "dara.tab.c"
+#line 1292 "dara.tab.c"
     break;
 
   case 18: /* ciclo: WHIPILEPE condicion bloque  */
-#line 177 "dara.y"
+#line 178 "dara.y"
       {
           (yyval.node) = ast_crear_ciclo((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1299 "dara.tab.c"
+#line 1300 "dara.tab.c"
     break;
 
   case 19: /* bloque: LLAVE_ABRE instrucciones LLAVE_CIERRA  */
-#line 183 "dara.y"
+#line 184 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1307 "dara.tab.c"
+#line 1308 "dara.tab.c"
     break;
 
   case 20: /* condicion: expresion operador_comparacion expresion  */
-#line 189 "dara.y"
+#line 190 "dara.y"
       {
           (yyval.node) = ast_crear_comparacion((yyvsp[-1].text), (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1315 "dara.tab.c"
+#line 1316 "dara.tab.c"
     break;
 
   case 21: /* operador_comparacion: MENOR  */
-#line 195 "dara.y"
+#line 196 "dara.y"
       { (yyval.text) = strdup("<"); }
-#line 1321 "dara.tab.c"
+#line 1322 "dara.tab.c"
     break;
 
   case 22: /* operador_comparacion: MAYOR  */
-#line 197 "dara.y"
+#line 198 "dara.y"
       { (yyval.text) = strdup(">"); }
-#line 1327 "dara.tab.c"
+#line 1328 "dara.tab.c"
     break;
 
   case 23: /* operador_comparacion: MENOR_IGUAL  */
-#line 199 "dara.y"
+#line 200 "dara.y"
       { (yyval.text) = strdup("<="); }
-#line 1333 "dara.tab.c"
+#line 1334 "dara.tab.c"
     break;
 
   case 24: /* operador_comparacion: MAYOR_IGUAL  */
-#line 201 "dara.y"
+#line 202 "dara.y"
       { (yyval.text) = strdup(">="); }
-#line 1339 "dara.tab.c"
+#line 1340 "dara.tab.c"
     break;
 
   case 25: /* operador_comparacion: IGUAL  */
-#line 203 "dara.y"
+#line 204 "dara.y"
       { (yyval.text) = strdup("=="); }
-#line 1345 "dara.tab.c"
+#line 1346 "dara.tab.c"
     break;
 
   case 26: /* operador_comparacion: DIFERENTE  */
-#line 205 "dara.y"
+#line 206 "dara.y"
       { (yyval.text) = strdup("!="); }
-#line 1351 "dara.tab.c"
+#line 1352 "dara.tab.c"
     break;
 
   case 27: /* expresion: expresion MAS termino  */
-#line 209 "dara.y"
+#line 210 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("+", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1359 "dara.tab.c"
+#line 1360 "dara.tab.c"
     break;
 
   case 28: /* expresion: expresion MENOS termino  */
-#line 213 "dara.y"
+#line 214 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("-", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1367 "dara.tab.c"
+#line 1368 "dara.tab.c"
     break;
 
   case 29: /* expresion: termino  */
-#line 217 "dara.y"
+#line 218 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1375 "dara.tab.c"
+#line 1376 "dara.tab.c"
     break;
 
   case 30: /* termino: termino POR factor  */
-#line 223 "dara.y"
+#line 224 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("*", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1383 "dara.tab.c"
+#line 1384 "dara.tab.c"
     break;
 
   case 31: /* termino: termino DIVISION factor  */
-#line 227 "dara.y"
+#line 228 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("/", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1391 "dara.tab.c"
+#line 1392 "dara.tab.c"
     break;
 
   case 32: /* termino: factor  */
-#line 231 "dara.y"
+#line 232 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1399 "dara.tab.c"
+#line 1400 "dara.tab.c"
     break;
 
   case 33: /* factor: IDENTIFICADOR  */
-#line 237 "dara.y"
+#line 238 "dara.y"
       {
           if (!tabla_existe((yyvsp[0].text))) {
               fprintf(stderr,
@@ -1410,35 +1411,35 @@ yyreduce:
 
           (yyval.node) = ast_crear_identificador((yyvsp[0].text));
       }
-#line 1414 "dara.tab.c"
+#line 1415 "dara.tab.c"
     break;
 
   case 34: /* factor: NUMERO_ENTERO  */
-#line 248 "dara.y"
+#line 249 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1422 "dara.tab.c"
+#line 1423 "dara.tab.c"
     break;
 
   case 35: /* factor: NUMERO_REAL  */
-#line 252 "dara.y"
+#line 253 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1430 "dara.tab.c"
+#line 1431 "dara.tab.c"
     break;
 
   case 36: /* factor: PARENTESIS_ABRE expresion PARENTESIS_CIERRA  */
-#line 256 "dara.y"
+#line 257 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1438 "dara.tab.c"
+#line 1439 "dara.tab.c"
     break;
 
 
-#line 1442 "dara.tab.c"
+#line 1443 "dara.tab.c"
 
       default: break;
     }
@@ -1631,7 +1632,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 260 "dara.y"
+#line 261 "dara.y"
 
 
 void yyerror(const char *mensaje) {
@@ -1640,10 +1641,12 @@ void yyerror(const char *mensaje) {
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
-        fprintf(stderr, "Uso: %s archivo.da\n", argv[0]);
+    if (argc < 2) {
+        fprintf(stderr, "Uso: %s archivo.da [salida.f1]\n", argv[0]);
         return 1;
     }
+
+    const char *archivo_salida = (argc >= 3) ? argv[2] : "F1Code.f1";
 
     FILE *archivo = fopen(argv[1], "r");
 
@@ -1665,12 +1668,15 @@ int main(int argc, char **argv) {
         printf("\n=== TABLA DE SIMBOLOS ===\n");
         tabla_imprimir();
 
-        printf("\nPrograma valido.\n");
+        printf("\n[OK] Programa valido.\n");
+
+        // Generar archivo F1Code (.f1)
+        generate_f1code(raiz, archivo_salida);
 
         return 0;
     }
 
-    printf("\nPrograma invalido.\n");
+    printf("\n[Error] Programa invalido.\n");
 
     return 1;
 }

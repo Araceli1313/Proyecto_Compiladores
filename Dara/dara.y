@@ -5,6 +5,7 @@
 
 #include "ast.h"
 #include "symbol_table.h"
+#include "codegen_f1.h"
 
 int yylex(void);
 void yyerror(const char *mensaje);
@@ -265,10 +266,12 @@ void yyerror(const char *mensaje) {
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
-        fprintf(stderr, "Uso: %s archivo.da\n", argv[0]);
+    if (argc < 2) {
+        fprintf(stderr, "Uso: %s archivo.da [salida.f1]\n", argv[0]);
         return 1;
     }
+
+    const char *archivo_salida = (argc >= 3) ? argv[2] : "F1Code.f1";
 
     FILE *archivo = fopen(argv[1], "r");
 
@@ -290,12 +293,15 @@ int main(int argc, char **argv) {
         printf("\n=== TABLA DE SIMBOLOS ===\n");
         tabla_imprimir();
 
-        printf("\nPrograma valido.\n");
+        printf("\n[OK] Programa valido.\n");
+
+        // Generar archivo F1Code (.f1)
+        generate_f1code(raiz, archivo_salida);
 
         return 0;
     }
 
-    printf("\nPrograma invalido.\n");
+    printf("\n[Error] Programa invalido.\n");
 
     return 1;
 }
