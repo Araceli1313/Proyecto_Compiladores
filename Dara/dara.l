@@ -9,6 +9,7 @@ extern int yylineno;
 %}
 
 %option noyywrap
+%option yylineno
 
 %%
 
