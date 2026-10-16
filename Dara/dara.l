@@ -15,6 +15,7 @@ extern int yylineno;
 
 "nepew"     { return NEPEW; }
 "ipint"     { return IPINT; }
+"ipfloat"   { return IPFLOAT; }
 "repealpa"  { return REPEALPA; }
 "repeapad"  { return REPEAPAD; }
 "pripint"   { return PRIPINT; }

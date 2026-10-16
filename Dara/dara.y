@@ -28,6 +28,7 @@ int hubo_error = 0;
 
 %token NEPEW
 %token IPINT
+%token IPFLOAT
 %token REPEALPA
 %token REPEAPAD
 %token PRIPINT
@@ -122,6 +123,10 @@ tipo
     : IPINT
       {
           $$ = strdup("ipint");
+      }
+    | IPFLOAT
+      {
+          $$ = strdup("ipfloat");
       }
     | REPEALPA
       {

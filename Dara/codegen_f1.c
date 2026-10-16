@@ -47,16 +47,22 @@ static void generate_statement(ASTNode *node, FILE *out, int indent_level) {
         case AST_DECLARACION:
             for (int i = 0; i < indent_level; i++) fprintf(out, "    ");
             
-            // ipint -> garage engine | repealpa -> garage fuel
+            // ipint -> garage engine | ipfloat / repealpa -> garage fuel
             if (node->valor && strcmp(node->valor, "ipint") == 0) {
                 fprintf(out, "garage engine ");
+                if (node->izquierda && node->izquierda->valor) {
+                    fprintf(out, "%s := 0;\n", node->izquierda->valor);
+                }
+            } else if (node->valor && strcmp(node->valor, "ipfloat") == 0) {
+                fprintf(out, "garage fuel ");
+                if (node->izquierda && node->izquierda->valor) {
+                    fprintf(out, "%s := 0.0;\n", node->izquierda->valor);
+                }
             } else {
                 fprintf(out, "garage fuel ");
-            }
-
-            // Nombre de la variable declarada
-            if (node->izquierda && node->izquierda->valor) {
-                fprintf(out, "%s := 0;\n", node->izquierda->valor);
+                if (node->izquierda && node->izquierda->valor) {
+                    fprintf(out, "%s := 0;\n", node->izquierda->valor);
+                }
             }
             break;
 
