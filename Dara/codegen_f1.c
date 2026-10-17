@@ -20,6 +20,7 @@ static void generate_expression(ASTNode *node, FILE *out) {
             /* Mantener paréntesis en operaciones aritméticas */
             fprintf(out, "(");
             generate_expression(node->izquierda, out);
+
             if (node->valor) {
                 fprintf(out, " %s ", node->valor);
             }
