@@ -1,27 +1,20 @@
+// Traduccion automatica de Dara a F1Code (.f1)
+
+garage engine edad := 0;
 garage engine contador := 0;
-garage engine limite := 0;
-garage fuel total := 0.0;
-garage fuel precio_base := 0.0;
-garage fuel resultado_final := 0.0;
-
-contador := 0;
-total := 0.00;
-precio_base := 15.50;
-
-radio contador;
-pitstop limite;
-
-lap ((contador < limite)) {
-    contador := (contador + 1);
-    race ((contador > 5)) {
-        total := (total + (precio_base * 2.00));
-        radio total;
-    } overtake {
-        total := (total + precio_base);
-    }
+garage engine resultado := 0;
+pitstop edad;
+resultado := (edad * 2);
+contador := 1;
+race (edad >= 18) {
+    radio resultado;
+} overtake {
+    radio edad;
 }
-
-resultado_final := ((total / 2.00) + 100.25);
-radio resultado_final;
+lap (contador <= 3) {
+    resultado := (resultado + contador);
+    contador := (contador + 1);
+}
+radio resultado;
 
 finish;
