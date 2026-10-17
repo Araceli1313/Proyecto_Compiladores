@@ -1,0 +1,13 @@
+nepew ipint $vidas;
+nepew ipfloat $puntos;
+
+$vidas <- 3;
+$puntos <- 0.00;
+repeapad $puntos;
+ipif $vidas > 0 {
+$puntos <- $puntos + 10.50 * 2;
+pripint $puntos;
+}
+whipilepe $vidas < 10 {
+$vidas <- $vidas + 1;
+}
