@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "dara.y"
+#line 2 "dara.y"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -81,8 +81,8 @@ int yylex(void);
 void yyerror(const char *mensaje);
 extern FILE *yyin;
 
-// Variables globales para el manejo de líneas y errores
 extern int yylineno;
+
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 
@@ -145,24 +145,26 @@ enum yysymbol_kind_t
   YYSYMBOL_IDENTIFICADOR = 28,             /* IDENTIFICADOR  */
   YYSYMBOL_NUMERO_ENTERO = 29,             /* NUMERO_ENTERO  */
   YYSYMBOL_NUMERO_REAL = 30,               /* NUMERO_REAL  */
-  YYSYMBOL_ERROR_LEXICO = 31,              /* ERROR_LEXICO  */
-  YYSYMBOL_YYACCEPT = 32,                  /* $accept  */
-  YYSYMBOL_programa = 33,                  /* programa  */
-  YYSYMBOL_instrucciones = 34,             /* instrucciones  */
-  YYSYMBOL_instruccion = 35,               /* instruccion  */
-  YYSYMBOL_declaracion = 36,               /* declaracion  */
-  YYSYMBOL_tipo = 37,                      /* tipo  */
-  YYSYMBOL_asignacion = 38,                /* asignacion  */
-  YYSYMBOL_entrada = 39,                   /* entrada  */
-  YYSYMBOL_salida = 40,                    /* salida  */
-  YYSYMBOL_condicional = 41,               /* condicional  */
-  YYSYMBOL_ciclo = 42,                     /* ciclo  */
-  YYSYMBOL_bloque = 43,                    /* bloque  */
-  YYSYMBOL_condicion = 44,                 /* condicion  */
-  YYSYMBOL_operador_comparacion = 45,      /* operador_comparacion  */
-  YYSYMBOL_expresion = 46,                 /* expresion  */
-  YYSYMBOL_termino = 47,                   /* termino  */
-  YYSYMBOL_factor = 48                     /* factor  */
+  YYSYMBOL_CADENA = 31,                    /* CADENA  */
+  YYSYMBOL_COMENTARIO = 32,                /* COMENTARIO  */
+  YYSYMBOL_ERROR_LEXICO = 33,              /* ERROR_LEXICO  */
+  YYSYMBOL_YYACCEPT = 34,                  /* $accept  */
+  YYSYMBOL_programa = 35,                  /* programa  */
+  YYSYMBOL_instrucciones = 36,             /* instrucciones  */
+  YYSYMBOL_instruccion = 37,               /* instruccion  */
+  YYSYMBOL_declaracion = 38,               /* declaracion  */
+  YYSYMBOL_tipo = 39,                      /* tipo  */
+  YYSYMBOL_asignacion = 40,                /* asignacion  */
+  YYSYMBOL_entrada = 41,                   /* entrada  */
+  YYSYMBOL_salida = 42,                    /* salida  */
+  YYSYMBOL_condicional = 43,               /* condicional  */
+  YYSYMBOL_ciclo = 44,                     /* ciclo  */
+  YYSYMBOL_bloque = 45,                    /* bloque  */
+  YYSYMBOL_condicion = 46,                 /* condicion  */
+  YYSYMBOL_operador_comparacion = 47,      /* operador_comparacion  */
+  YYSYMBOL_expresion = 48,                 /* expresion  */
+  YYSYMBOL_termino = 49,                   /* termino  */
+  YYSYMBOL_factor = 50                     /* factor  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -488,21 +490,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  32
+#define YYFINAL  34
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   53
+#define YYLAST   78
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  32
+#define YYNTOKENS  34
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  17
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  37
+#define YYNRULES  42
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  65
+#define YYNSTATES  73
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   286
+#define YYMAXUTOK   288
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -544,17 +546,18 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31
+      25,    26,    27,    28,    29,    30,    31,    32,    33
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    86,    86,    92,    97,   102,   104,   106,   108,   110,
-     112,   116,   123,   127,   131,   137,   150,   163,   176,   182,
-     188,   194,   200,   202,   204,   206,   208,   210,   214,   218,
-     222,   228,   232,   236,   242,   253,   257,   261
+       0,   104,   104,   111,   116,   122,   126,   130,   134,   138,
+     142,   146,   153,   161,   165,   169,   176,   190,   204,   218,
+     222,   226,   233,   240,   247,   251,   258,   262,   266,   270,
+     274,   278,   285,   289,   293,   300,   304,   308,   315,   326,
+     330,   334,   338
 };
 #endif
 
@@ -576,10 +579,10 @@ static const char *const yytname[] =
   "MAYOR_IGUAL", "IGUAL", "DIFERENTE", "MAS", "MENOS", "POR", "DIVISION",
   "PUNTO_COMA", "LLAVE_ABRE", "LLAVE_CIERRA", "PARENTESIS_ABRE",
   "PARENTESIS_CIERRA", "IDENTIFICADOR", "NUMERO_ENTERO", "NUMERO_REAL",
-  "ERROR_LEXICO", "$accept", "programa", "instrucciones", "instruccion",
-  "declaracion", "tipo", "asignacion", "entrada", "salida", "condicional",
-  "ciclo", "bloque", "condicion", "operador_comparacion", "expresion",
-  "termino", "factor", YY_NULLPTR
+  "CADENA", "COMENTARIO", "ERROR_LEXICO", "$accept", "programa",
+  "instrucciones", "instruccion", "declaracion", "tipo", "asignacion",
+  "entrada", "salida", "condicional", "ciclo", "bloque", "condicion",
+  "operador_comparacion", "expresion", "termino", "factor", YY_NULLPTR
 };
 
 static const char *
@@ -589,7 +592,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-29)
+#define YYPACT_NINF (-31)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -603,13 +606,14 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       4,    -1,   -22,   -14,     7,     7,    14,    46,   -29,     4,
-     -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,    19,
-      -6,    25,     7,   -29,   -29,   -29,    26,     5,    17,   -29,
-      26,     7,   -29,   -29,    28,   -29,   -29,   -11,     4,    39,
-     -29,   -29,   -29,   -29,   -29,   -29,     7,     7,     7,     7,
-       7,   -29,    11,   -29,   -29,    27,    26,    17,    17,    21,
-     -29,   -29,   -29,   -29,   -29
+       6,    58,   -22,     5,    -5,    -5,    10,   -31,    35,   -31,
+       6,   -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,
+       9,    25,    48,    21,   -31,   -31,   -31,   -31,    49,    41,
+       8,   -31,    49,    21,   -31,   -31,    51,   -31,   -31,    21,
+      26,     6,    62,   -31,   -31,   -31,   -31,   -31,   -31,    21,
+      21,    21,    21,    21,   -31,   -12,   -31,   -15,   -31,    21,
+      50,    -6,     8,     8,    46,   -31,   -31,   -31,     0,   -31,
+     -31,   -31,   -31
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -617,27 +621,28 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       4,     0,     0,     0,     0,     0,     0,     0,     2,     4,
-       5,     6,     7,     8,     9,    10,    12,    13,    14,     0,
-       0,     0,     0,    34,    35,    36,     0,     0,    30,    33,
-       0,     0,     1,     3,     0,    16,    17,     0,     4,     0,
-      22,    23,    24,    25,    26,    27,     0,     0,     0,     0,
-       0,    19,     0,    11,    37,     0,     0,    28,    29,    21,
-      31,    32,    15,    20,    18
+       4,     0,     0,     0,     0,     0,     0,    11,     0,     2,
+       4,     5,     6,     7,     8,     9,    10,    13,    14,    15,
+       0,     0,     0,     0,    38,    39,    40,    41,     0,     0,
+      34,    37,     0,     0,     1,     3,     0,    17,    18,     0,
+       0,     4,    19,    26,    27,    28,    29,    30,    31,     0,
+       0,     0,     0,     0,    22,     0,    12,     0,    42,     0,
+       0,     0,    32,    33,    24,    35,    36,    16,     0,    23,
+      21,    20,    25
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -29,   -29,    -9,   -29,   -29,   -29,   -29,   -29,   -29,   -29,
-     -29,   -28,    48,   -29,   -21,    -4,    -5
+     -31,   -31,    -9,   -31,   -31,   -31,   -31,   -31,   -31,    15,
+     -31,   -30,    72,    38,   -23,    18,    17
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     7,     8,     9,    10,    19,    11,    12,    13,    14,
-      15,    39,    26,    48,    27,    28,    29
+       0,     8,     9,    10,    11,    20,    12,    13,    14,    15,
+      16,    42,    28,    51,    29,    30,    31
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -645,53 +650,60 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      33,    37,    51,    16,    17,    18,    20,     1,    46,    47,
-      52,     2,     3,     4,    21,     5,    54,    35,    40,    41,
-      42,    43,    44,    45,    46,    47,    31,    59,    64,    55,
-      46,    47,     6,    22,    62,    23,    24,    25,    49,    50,
-      46,    47,    57,    58,    60,    61,    32,    34,    36,    56,
-      38,    53,    63,    30
+      40,    35,    54,     4,    49,    50,    21,    49,    50,     1,
+      55,    67,    58,     2,     3,     4,    57,     5,    41,    49,
+      50,    23,    33,    24,    25,    26,    27,    72,    64,    52,
+      53,    71,    60,    22,     6,    34,    68,    36,     7,    43,
+      44,    45,    46,    47,    48,    49,    50,    39,    37,    24,
+      25,    26,    27,    58,    43,    44,    45,    46,    47,    48,
+      49,    50,    17,    18,    19,    49,    50,    62,    63,    65,
+      66,    38,    61,    41,    56,    69,    70,    32,    59
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,    22,    30,     4,     5,     6,    28,     3,    19,    20,
-      31,     7,     8,     9,    28,    11,    27,    23,    13,    14,
-      15,    16,    17,    18,    19,    20,    12,    48,    56,    38,
-      19,    20,    28,    26,    23,    28,    29,    30,    21,    22,
-      19,    20,    46,    47,    49,    50,     0,    28,    23,    10,
-      24,    23,    25,     5
+      23,    10,    32,     9,    19,    20,    28,    19,    20,     3,
+      33,    23,    27,     7,     8,     9,    39,    11,    24,    19,
+      20,    26,    12,    28,    29,    30,    31,    27,    51,    21,
+      22,    61,    41,    28,    28,     0,    59,    28,    32,    13,
+      14,    15,    16,    17,    18,    19,    20,    26,    23,    28,
+      29,    30,    31,    27,    13,    14,    15,    16,    17,    18,
+      19,    20,     4,     5,     6,    19,    20,    49,    50,    52,
+      53,    23,    10,    24,    23,    25,    61,     5,    40
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     7,     8,     9,    11,    28,    33,    34,    35,
-      36,    38,    39,    40,    41,    42,     4,     5,     6,    37,
-      28,    28,    26,    28,    29,    30,    44,    46,    47,    48,
-      44,    12,     0,    34,    28,    23,    23,    46,    24,    43,
-      13,    14,    15,    16,    17,    18,    19,    20,    45,    21,
-      22,    43,    46,    23,    27,    34,    10,    47,    47,    46,
-      48,    48,    23,    25,    43
+       0,     3,     7,     8,     9,    11,    28,    32,    35,    36,
+      37,    38,    40,    41,    42,    43,    44,     4,     5,     6,
+      39,    28,    28,    26,    28,    29,    30,    31,    46,    48,
+      49,    50,    46,    12,     0,    36,    28,    23,    23,    26,
+      48,    24,    45,    13,    14,    15,    16,    17,    18,    19,
+      20,    47,    21,    22,    45,    48,    23,    48,    27,    47,
+      36,    10,    49,    49,    48,    50,    50,    23,    48,    25,
+      43,    45,    27
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    32,    33,    34,    34,    35,    35,    35,    35,    35,
-      35,    36,    37,    37,    37,    38,    39,    40,    41,    42,
-      43,    44,    45,    45,    45,    45,    45,    45,    46,    46,
-      46,    47,    47,    47,    48,    48,    48,    48
+       0,    34,    35,    36,    36,    37,    37,    37,    37,    37,
+      37,    37,    38,    39,    39,    39,    40,    41,    42,    43,
+      43,    43,    44,    45,    46,    46,    47,    47,    47,    47,
+      47,    47,    48,    48,    48,    49,    49,    49,    50,    50,
+      50,    50,    50
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     0,     1,     1,     1,     1,     1,
-       1,     4,     1,     1,     1,     4,     3,     3,     5,     3,
-       3,     3,     1,     1,     1,     1,     1,     1,     3,     3,
-       1,     3,     3,     1,     1,     1,     1,     3
+       1,     1,     4,     1,     1,     1,     4,     3,     3,     3,
+       5,     5,     3,     3,     3,     5,     1,     1,     1,     1,
+       1,     1,     3,     3,     1,     3,     3,     1,     1,     1,
+       1,     1,     3
 };
 
 
@@ -1155,100 +1167,120 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: instrucciones  */
-#line 87 "dara.y"
+#line 105 "dara.y"
       {
           raiz = (yyvsp[0].node);
       }
-#line 1163 "dara.tab.c"
+#line 1175 "dara.tab.c"
     break;
 
   case 3: /* instrucciones: instruccion instrucciones  */
-#line 93 "dara.y"
+#line 112 "dara.y"
       {
           (yyval.node) = ast_crear_bloque((yyvsp[-1].node), (yyvsp[0].node));
       }
-#line 1171 "dara.tab.c"
+#line 1183 "dara.tab.c"
     break;
 
   case 4: /* instrucciones: %empty  */
-#line 97 "dara.y"
+#line 116 "dara.y"
       {
           (yyval.node) = NULL;
       }
-#line 1179 "dara.tab.c"
-    break;
-
-  case 5: /* instruccion: declaracion  */
-#line 103 "dara.y"
-      { (yyval.node) = (yyvsp[0].node); }
-#line 1185 "dara.tab.c"
-    break;
-
-  case 6: /* instruccion: asignacion  */
-#line 105 "dara.y"
-      { (yyval.node) = (yyvsp[0].node); }
 #line 1191 "dara.tab.c"
     break;
 
+  case 5: /* instruccion: declaracion  */
+#line 123 "dara.y"
+      {
+          (yyval.node) = (yyvsp[0].node);
+      }
+#line 1199 "dara.tab.c"
+    break;
+
+  case 6: /* instruccion: asignacion  */
+#line 127 "dara.y"
+      {
+          (yyval.node) = (yyvsp[0].node);
+      }
+#line 1207 "dara.tab.c"
+    break;
+
   case 7: /* instruccion: entrada  */
-#line 107 "dara.y"
-      { (yyval.node) = (yyvsp[0].node); }
-#line 1197 "dara.tab.c"
-    break;
-
-  case 8: /* instruccion: salida  */
-#line 109 "dara.y"
-      { (yyval.node) = (yyvsp[0].node); }
-#line 1203 "dara.tab.c"
-    break;
-
-  case 9: /* instruccion: condicional  */
-#line 111 "dara.y"
-      { (yyval.node) = (yyvsp[0].node); }
-#line 1209 "dara.tab.c"
-    break;
-
-  case 10: /* instruccion: ciclo  */
-#line 113 "dara.y"
-      { (yyval.node) = (yyvsp[0].node); }
+#line 131 "dara.y"
+      {
+          (yyval.node) = (yyvsp[0].node);
+      }
 #line 1215 "dara.tab.c"
     break;
 
-  case 11: /* declaracion: NEPEW tipo IDENTIFICADOR PUNTO_COMA  */
-#line 117 "dara.y"
+  case 8: /* instruccion: salida  */
+#line 135 "dara.y"
+      {
+          (yyval.node) = (yyvsp[0].node);
+      }
+#line 1223 "dara.tab.c"
+    break;
+
+  case 9: /* instruccion: condicional  */
+#line 139 "dara.y"
+      {
+          (yyval.node) = (yyvsp[0].node);
+      }
+#line 1231 "dara.tab.c"
+    break;
+
+  case 10: /* instruccion: ciclo  */
+#line 143 "dara.y"
+      {
+          (yyval.node) = (yyvsp[0].node);
+      }
+#line 1239 "dara.tab.c"
+    break;
+
+  case 11: /* instruccion: COMENTARIO  */
+#line 147 "dara.y"
+      {
+          (yyval.node) = ast_crear_comentario((yyvsp[0].text));
+      }
+#line 1247 "dara.tab.c"
+    break;
+
+  case 12: /* declaracion: NEPEW tipo IDENTIFICADOR PUNTO_COMA  */
+#line 154 "dara.y"
       {
           tabla_agregar((yyvsp[-1].text), (yyvsp[-2].text));
           (yyval.node) = ast_crear_declaracion((yyvsp[-2].text), (yyvsp[-1].text));
       }
-#line 1224 "dara.tab.c"
+#line 1256 "dara.tab.c"
     break;
 
-  case 12: /* tipo: IPINT  */
-#line 124 "dara.y"
+  case 13: /* tipo: IPINT  */
+#line 162 "dara.y"
       {
           (yyval.text) = strdup("ipint");
       }
-#line 1232 "dara.tab.c"
+#line 1264 "dara.tab.c"
     break;
 
-  case 13: /* tipo: IPFLOAT  */
-#line 128 "dara.y"
+  case 14: /* tipo: IPFLOAT  */
+#line 166 "dara.y"
       {
           (yyval.text) = strdup("ipfloat");
       }
-#line 1240 "dara.tab.c"
+#line 1272 "dara.tab.c"
     break;
 
-  case 14: /* tipo: REPEALPA  */
-#line 132 "dara.y"
+  case 15: /* tipo: REPEALPA  */
+#line 170 "dara.y"
       {
           (yyval.text) = strdup("repealpa");
       }
-#line 1248 "dara.tab.c"
+#line 1280 "dara.tab.c"
     break;
 
-  case 15: /* asignacion: IDENTIFICADOR ASIGNACION expresion PUNTO_COMA  */
-#line 138 "dara.y"
+  case 16: /* asignacion: IDENTIFICADOR ASIGNACION expresion PUNTO_COMA  */
+#line 177 "dara.y"
       {
           if (!tabla_existe((yyvsp[-3].text))) {
               fprintf(stderr,
@@ -1259,11 +1291,11 @@ yyreduce:
 
           (yyval.node) = ast_crear_asignacion((yyvsp[-3].text), (yyvsp[-1].node));
       }
-#line 1263 "dara.tab.c"
+#line 1295 "dara.tab.c"
     break;
 
-  case 16: /* entrada: REPEAPAD IDENTIFICADOR PUNTO_COMA  */
-#line 151 "dara.y"
+  case 17: /* entrada: REPEAPAD IDENTIFICADOR PUNTO_COMA  */
+#line 191 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
@@ -1274,11 +1306,11 @@ yyreduce:
 
           (yyval.node) = ast_crear_entrada((yyvsp[-1].text));
       }
-#line 1278 "dara.tab.c"
+#line 1310 "dara.tab.c"
     break;
 
-  case 17: /* salida: PRIPINT IDENTIFICADOR PUNTO_COMA  */
-#line 164 "dara.y"
+  case 18: /* salida: PRIPINT IDENTIFICADOR PUNTO_COMA  */
+#line 205 "dara.y"
       {
           if (!tabla_existe((yyvsp[-1].text))) {
               fprintf(stderr,
@@ -1289,127 +1321,163 @@ yyreduce:
 
           (yyval.node) = ast_crear_salida((yyvsp[-1].text));
       }
-#line 1293 "dara.tab.c"
-    break;
-
-  case 18: /* condicional: IPIF condicion bloque EPELSEPE bloque  */
-#line 177 "dara.y"
-      {
-          (yyval.node) = ast_crear_condicional((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));
-      }
-#line 1301 "dara.tab.c"
-    break;
-
-  case 19: /* ciclo: WHIPILEPE condicion bloque  */
-#line 183 "dara.y"
-      {
-          (yyval.node) = ast_crear_ciclo((yyvsp[-1].node), (yyvsp[0].node));
-      }
-#line 1309 "dara.tab.c"
-    break;
-
-  case 20: /* bloque: LLAVE_ABRE instrucciones LLAVE_CIERRA  */
-#line 189 "dara.y"
-      {
-          (yyval.node) = (yyvsp[-1].node);
-      }
-#line 1317 "dara.tab.c"
-    break;
-
-  case 21: /* condicion: expresion operador_comparacion expresion  */
-#line 195 "dara.y"
-      {
-          (yyval.node) = ast_crear_comparacion((yyvsp[-1].text), (yyvsp[-2].node), (yyvsp[0].node));
-      }
 #line 1325 "dara.tab.c"
     break;
 
-  case 22: /* operador_comparacion: MENOR  */
-#line 201 "dara.y"
-      { (yyval.text) = strdup("<"); }
-#line 1331 "dara.tab.c"
+  case 19: /* condicional: IPIF condicion bloque  */
+#line 219 "dara.y"
+      {
+          (yyval.node) = ast_crear_condicional((yyvsp[-1].node), (yyvsp[0].node), NULL);
+      }
+#line 1333 "dara.tab.c"
     break;
 
-  case 23: /* operador_comparacion: MAYOR  */
-#line 203 "dara.y"
-      { (yyval.text) = strdup(">"); }
-#line 1337 "dara.tab.c"
+  case 20: /* condicional: IPIF condicion bloque EPELSEPE bloque  */
+#line 223 "dara.y"
+      {
+          (yyval.node) = ast_crear_condicional((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));
+      }
+#line 1341 "dara.tab.c"
     break;
 
-  case 24: /* operador_comparacion: MENOR_IGUAL  */
-#line 205 "dara.y"
-      { (yyval.text) = strdup("<="); }
-#line 1343 "dara.tab.c"
-    break;
-
-  case 25: /* operador_comparacion: MAYOR_IGUAL  */
-#line 207 "dara.y"
-      { (yyval.text) = strdup(">="); }
+  case 21: /* condicional: IPIF condicion bloque EPELSEPE condicional  */
+#line 227 "dara.y"
+      {
+          (yyval.node) = ast_crear_condicional((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));
+      }
 #line 1349 "dara.tab.c"
     break;
 
-  case 26: /* operador_comparacion: IGUAL  */
-#line 209 "dara.y"
-      { (yyval.text) = strdup("=="); }
-#line 1355 "dara.tab.c"
+  case 22: /* ciclo: WHIPILEPE condicion bloque  */
+#line 234 "dara.y"
+      {
+          (yyval.node) = ast_crear_ciclo((yyvsp[-1].node), (yyvsp[0].node));
+      }
+#line 1357 "dara.tab.c"
     break;
 
-  case 27: /* operador_comparacion: DIFERENTE  */
-#line 211 "dara.y"
-      { (yyval.text) = strdup("!="); }
-#line 1361 "dara.tab.c"
+  case 23: /* bloque: LLAVE_ABRE instrucciones LLAVE_CIERRA  */
+#line 241 "dara.y"
+      {
+          (yyval.node) = (yyvsp[-1].node);
+      }
+#line 1365 "dara.tab.c"
     break;
 
-  case 28: /* expresion: expresion MAS termino  */
-#line 215 "dara.y"
+  case 24: /* condicion: expresion operador_comparacion expresion  */
+#line 248 "dara.y"
+      {
+          (yyval.node) = ast_crear_comparacion((yyvsp[-1].text), (yyvsp[-2].node), (yyvsp[0].node));
+      }
+#line 1373 "dara.tab.c"
+    break;
+
+  case 25: /* condicion: PARENTESIS_ABRE expresion operador_comparacion expresion PARENTESIS_CIERRA  */
+#line 252 "dara.y"
+      {
+          (yyval.node) = ast_crear_comparacion((yyvsp[-2].text), (yyvsp[-3].node), (yyvsp[-1].node));
+      }
+#line 1381 "dara.tab.c"
+    break;
+
+  case 26: /* operador_comparacion: MENOR  */
+#line 259 "dara.y"
+      {
+          (yyval.text) = strdup("<");
+      }
+#line 1389 "dara.tab.c"
+    break;
+
+  case 27: /* operador_comparacion: MAYOR  */
+#line 263 "dara.y"
+      {
+          (yyval.text) = strdup(">");
+      }
+#line 1397 "dara.tab.c"
+    break;
+
+  case 28: /* operador_comparacion: MENOR_IGUAL  */
+#line 267 "dara.y"
+      {
+          (yyval.text) = strdup("<=");
+      }
+#line 1405 "dara.tab.c"
+    break;
+
+  case 29: /* operador_comparacion: MAYOR_IGUAL  */
+#line 271 "dara.y"
+      {
+          (yyval.text) = strdup(">=");
+      }
+#line 1413 "dara.tab.c"
+    break;
+
+  case 30: /* operador_comparacion: IGUAL  */
+#line 275 "dara.y"
+      {
+          (yyval.text) = strdup("==");
+      }
+#line 1421 "dara.tab.c"
+    break;
+
+  case 31: /* operador_comparacion: DIFERENTE  */
+#line 279 "dara.y"
+      {
+          (yyval.text) = strdup("!=");
+      }
+#line 1429 "dara.tab.c"
+    break;
+
+  case 32: /* expresion: expresion MAS termino  */
+#line 286 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("+", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1369 "dara.tab.c"
+#line 1437 "dara.tab.c"
     break;
 
-  case 29: /* expresion: expresion MENOS termino  */
-#line 219 "dara.y"
+  case 33: /* expresion: expresion MENOS termino  */
+#line 290 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("-", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1377 "dara.tab.c"
+#line 1445 "dara.tab.c"
     break;
 
-  case 30: /* expresion: termino  */
-#line 223 "dara.y"
+  case 34: /* expresion: termino  */
+#line 294 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1385 "dara.tab.c"
+#line 1453 "dara.tab.c"
     break;
 
-  case 31: /* termino: termino POR factor  */
-#line 229 "dara.y"
+  case 35: /* termino: termino POR factor  */
+#line 301 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("*", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1393 "dara.tab.c"
+#line 1461 "dara.tab.c"
     break;
 
-  case 32: /* termino: termino DIVISION factor  */
-#line 233 "dara.y"
+  case 36: /* termino: termino DIVISION factor  */
+#line 305 "dara.y"
       {
           (yyval.node) = ast_crear_operacion("/", (yyvsp[-2].node), (yyvsp[0].node));
       }
-#line 1401 "dara.tab.c"
+#line 1469 "dara.tab.c"
     break;
 
-  case 33: /* termino: factor  */
-#line 237 "dara.y"
+  case 37: /* termino: factor  */
+#line 309 "dara.y"
       {
           (yyval.node) = (yyvsp[0].node);
       }
-#line 1409 "dara.tab.c"
+#line 1477 "dara.tab.c"
     break;
 
-  case 34: /* factor: IDENTIFICADOR  */
-#line 243 "dara.y"
+  case 38: /* factor: IDENTIFICADOR  */
+#line 316 "dara.y"
       {
           if (!tabla_existe((yyvsp[0].text))) {
               fprintf(stderr,
@@ -1420,35 +1488,43 @@ yyreduce:
 
           (yyval.node) = ast_crear_identificador((yyvsp[0].text));
       }
-#line 1424 "dara.tab.c"
+#line 1492 "dara.tab.c"
     break;
 
-  case 35: /* factor: NUMERO_ENTERO  */
-#line 254 "dara.y"
+  case 39: /* factor: NUMERO_ENTERO  */
+#line 327 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1432 "dara.tab.c"
+#line 1500 "dara.tab.c"
     break;
 
-  case 36: /* factor: NUMERO_REAL  */
-#line 258 "dara.y"
+  case 40: /* factor: NUMERO_REAL  */
+#line 331 "dara.y"
       {
           (yyval.node) = ast_crear_numero((yyvsp[0].text));
       }
-#line 1440 "dara.tab.c"
+#line 1508 "dara.tab.c"
     break;
 
-  case 37: /* factor: PARENTESIS_ABRE expresion PARENTESIS_CIERRA  */
-#line 262 "dara.y"
+  case 41: /* factor: CADENA  */
+#line 335 "dara.y"
+      {
+          (yyval.node) = ast_crear_cadena((yyvsp[0].text));
+      }
+#line 1516 "dara.tab.c"
+    break;
+
+  case 42: /* factor: PARENTESIS_ABRE expresion PARENTESIS_CIERRA  */
+#line 339 "dara.y"
       {
           (yyval.node) = (yyvsp[-1].node);
       }
-#line 1448 "dara.tab.c"
+#line 1524 "dara.tab.c"
     break;
 
 
-#line 1452 "dara.tab.c"
+#line 1528 "dara.tab.c"
 
       default: break;
     }
@@ -1641,21 +1717,29 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 266 "dara.y"
+#line 344 "dara.y"
 
 
 void yyerror(const char *mensaje) {
-    fprintf(stderr, "Error de sintaxis en la linea %d: %s\n", yylineno, mensaje);
+    fprintf(stderr,
+            "Error de sintaxis en la linea %d: %s\n",
+            yylineno,
+            mensaje);
+
     hubo_error = 1;
 }
 
 int main(int argc, char **argv) {
+
     if (argc < 2) {
-        fprintf(stderr, "Uso: %s archivo.da [salida.f1]\n", argv[0]);
+        fprintf(stderr,
+                "Uso: %s archivo.da [salida.f1]\n",
+                argv[0]);
         return 1;
     }
 
-    const char *archivo_salida = (argc >= 3) ? argv[2] : "F1Code.f1";
+    const char *archivo_salida =
+        (argc >= 3) ? argv[2] : "F1Code.f1";
 
     FILE *archivo = fopen(argv[1], "r");
 
@@ -1671,6 +1755,7 @@ int main(int argc, char **argv) {
     fclose(archivo);
 
     if (resultado == 0 && !hubo_error) {
+
         printf("\n=== AST ===\n");
         ast_imprimir(raiz, 0);
 
@@ -1679,13 +1764,18 @@ int main(int argc, char **argv) {
 
         printf("\n[OK] Programa valido.\n");
 
-        // Generar archivo F1Code (.f1)
+        /* Generar archivo F1Code */
+
         generate_f1code(raiz, archivo_salida);
+
+        ast_liberar(raiz);
 
         return 0;
     }
 
     printf("\n[Error] Programa invalido.\n");
+
+    ast_liberar(raiz);
 
     return 1;
 }

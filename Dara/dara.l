@@ -1,3 +1,4 @@
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +44,21 @@ extern int yylineno;
 "("         { return PARENTESIS_ABRE; }
 ")"         { return PARENTESIS_CIERRA; }
 
+"/*"([^*]|\*+[^*/])*\*+"/" {
+    yylval.text = strdup(yytext);
+    return COMENTARIO;
+}
+
+"//"[^\r\n]* {
+    yylval.text = strdup(yytext);
+    return COMENTARIO;
+}
+
+\"([^\"\\\n]|\\.)*\" {
+    yylval.text = strdup(yytext);
+    return CADENA;
+}
+
 [0-9]+\.[0-9]+ {
     yylval.text = strdup(yytext);
     return NUMERO_REAL;
@@ -58,13 +74,14 @@ extern int yylineno;
     return IDENTIFICADOR;
 }
 
-"//".*                    { /* Ignorar comentarios de una linea */ }
-"/*"([^*]|\*+[^/*])*\*+"/" { /* Ignorar comentarios multilinea */ }
-[ \t\r\n]+                { /* Ignorar espacios en blanco */ }
+[ \t\r\n]+ {
+}
 
 . {
-    printf("[Error Lexico] Caracter no reconocido: '%s'\n", yytext);
+    printf("[Error Lexico] Caracter no reconocido: '%s' en la linea %d\n",
+           yytext, yylineno);
     return ERROR_LEXICO;
 }
 
 %%
+

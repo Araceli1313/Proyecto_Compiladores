@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 20 "dara.y"
+#line 21 "dara.y"
 
 #include "ast.h"
 
@@ -88,7 +88,9 @@ extern int yydebug;
     IDENTIFICADOR = 283,           /* IDENTIFICADOR  */
     NUMERO_ENTERO = 284,           /* NUMERO_ENTERO  */
     NUMERO_REAL = 285,             /* NUMERO_REAL  */
-    ERROR_LEXICO = 286             /* ERROR_LEXICO  */
+    CADENA = 286,                  /* CADENA  */
+    COMENTARIO = 287,              /* COMENTARIO  */
+    ERROR_LEXICO = 288             /* ERROR_LEXICO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -97,12 +99,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 24 "dara.y"
+#line 25 "dara.y"
 
     char *text;
     ASTNode *node;
 
-#line 106 "dara.tab.h"
+#line 108 "dara.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

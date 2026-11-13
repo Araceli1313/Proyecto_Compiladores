@@ -1,0 +1,24 @@
+nepew ipint Jugador1;
+nepew ipint vidas;
+nepew ipfloat puntos;
+
+// Archivo de prueba básico sin for ni return
+Jugador1 <- "Alex";
+vidas <- 5;
+puntos <- 10.30;
+repeapad puntos;
+ipif vidas >= 5 {
+    puntos <- puntos + 10.50 * 2;
+} epelsepe ipif vidas > 0 {
+    puntos <- puntos + 5;
+} epelsepe {
+    vidas <- 0;
+}
+pripint puntos;
+whipilepe vidas < 10 {
+    vidas <- vidas + 1;
+}
+/*
+    Este archivo contiene únicamente variables, 
+    lectura, escritura, condicionales y bucle mientras.
+*/

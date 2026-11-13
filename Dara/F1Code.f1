@@ -1,20 +1,29 @@
 // Traduccion automatica de Dara a F1Code (.f1)
 
-garage engine edad := 0;
-garage engine contador := 0;
-garage engine resultado := 0;
-pitstop edad;
-resultado := (edad * 2);
-contador := 1;
-race (edad >= 18) {
-    radio resultado;
-} overtake {
-    radio edad;
+garage pilot Jugador1 := "";
+garage engine vidas := 0;
+garage fuel puntos := 0.0;
+// Archivo de prueba básico sin for ni return
+Jugador1 := "Alex";
+vidas := 5;
+puntos := 10.30;
+pitstop puntos;
+race (vidas >= 5) {
+    puntos := (puntos + (10.50 * 2));
 }
-lap (contador <= 3) {
-    resultado := (resultado + contador);
-    contador := (contador + 1);
+overtake race (vidas > 0) {
+    puntos := (puntos + 5);
 }
-radio resultado;
+overtake {
+    vidas := 0;
+}
+radio puntos;
+lap (vidas < 10) {
+    vidas := (vidas + 1);
+}
+/*
+    Este archivo contiene únicamente variables, 
+    lectura, escritura, condicionales y bucle mientras.
+*/
 
 finish;
