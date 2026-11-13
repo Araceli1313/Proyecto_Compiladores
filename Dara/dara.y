@@ -1,3 +1,4 @@
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +12,8 @@ int yylex(void);
 void yyerror(const char *mensaje);
 extern FILE *yyin;
 
-// Variables globales para el manejo de líneas y errores
 extern int yylineno;
+
 ASTNode *raiz = NULL;
 int hubo_error = 0;
 %}
@@ -26,6 +27,8 @@ int hubo_error = 0;
     ASTNode *node;
 }
 
+/* Palabras reservadas */
+
 %token NEPEW
 %token IPINT
 %token IPFLOAT
@@ -35,6 +38,8 @@ int hubo_error = 0;
 %token IPIF
 %token EPELSEPE
 %token WHIPILEPE
+
+/* Operadores */
 
 %token ASIGNACION
 
@@ -50,19 +55,30 @@ int hubo_error = 0;
 %token POR
 %token DIVISION
 
+/* Delimitadores */
+
 %token PUNTO_COMA
 %token LLAVE_ABRE
 %token LLAVE_CIERRA
 %token PARENTESIS_ABRE
 %token PARENTESIS_CIERRA
 
+/* Tokens con texto */
+
 %token <text> IDENTIFICADOR
 %token <text> NUMERO_ENTERO
 %token <text> NUMERO_REAL
+%token <text> CADENA
+%token <text> COMENTARIO
 
 %token ERROR_LEXICO
+
+/* Precedencia */
+
 %left MAS MENOS
 %left POR DIVISION
+
+/* Tipos de nodos */
 
 %type <node> programa
 %type <node> instrucciones
@@ -81,13 +97,16 @@ int hubo_error = 0;
 
 %type <text> tipo
 %type <text> operador_comparacion
+
 %%
+
 programa
     : instrucciones
       {
           raiz = $1;
       }
     ;
+
 instrucciones
     : instruccion instrucciones
       {
@@ -98,20 +117,38 @@ instrucciones
           $$ = NULL;
       }
     ;
+
 instruccion
     : declaracion
-      { $$ = $1; }
+      {
+          $$ = $1;
+      }
     | asignacion
-      { $$ = $1; }
+      {
+          $$ = $1;
+      }
     | entrada
-      { $$ = $1; }
+      {
+          $$ = $1;
+      }
     | salida
-      { $$ = $1; }
+      {
+          $$ = $1;
+      }
     | condicional
-      { $$ = $1; }
+      {
+          $$ = $1;
+      }
     | ciclo
-      { $$ = $1; }
+      {
+          $$ = $1;
+      }
+    | COMENTARIO
+      {
+          $$ = ast_crear_comentario($1);
+      }
     ;
+
 declaracion
     : NEPEW tipo IDENTIFICADOR PUNTO_COMA
       {
@@ -119,6 +156,7 @@ declaracion
           $$ = ast_crear_declaracion($2, $3);
       }
     ;
+
 tipo
     : IPINT
       {
@@ -133,6 +171,7 @@ tipo
           $$ = strdup("repealpa");
       }
     ;
+
 asignacion
     : IDENTIFICADOR ASIGNACION expresion PUNTO_COMA
       {
@@ -146,6 +185,7 @@ asignacion
           $$ = ast_crear_asignacion($1, $3);
       }
     ;
+
 entrada
     : REPEAPAD IDENTIFICADOR PUNTO_COMA
       {
@@ -159,6 +199,7 @@ entrada
           $$ = ast_crear_entrada($2);
       }
     ;
+
 salida
     : PRIPINT IDENTIFICADOR PUNTO_COMA
       {
@@ -172,44 +213,74 @@ salida
           $$ = ast_crear_salida($2);
       }
     ;
+
 condicional
-    : IPIF condicion bloque EPELSEPE bloque
+    : IPIF condicion bloque
+      {
+          $$ = ast_crear_condicional($2, $3, NULL);
+      }
+    | IPIF condicion bloque EPELSEPE bloque
+      {
+          $$ = ast_crear_condicional($2, $3, $5);
+      }
+    | IPIF condicion bloque EPELSEPE condicional
       {
           $$ = ast_crear_condicional($2, $3, $5);
       }
     ;
+
 ciclo
     : WHIPILEPE condicion bloque
       {
           $$ = ast_crear_ciclo($2, $3);
       }
     ;
+
 bloque
     : LLAVE_ABRE instrucciones LLAVE_CIERRA
       {
           $$ = $2;
       }
     ;
+
 condicion
     : expresion operador_comparacion expresion
       {
           $$ = ast_crear_comparacion($2, $1, $3);
       }
+    | PARENTESIS_ABRE expresion operador_comparacion expresion PARENTESIS_CIERRA
+      {
+          $$ = ast_crear_comparacion($3, $2, $4);
+      }
     ;
+
 operador_comparacion
     : MENOR
-      { $$ = strdup("<"); }
+      {
+          $$ = strdup("<");
+      }
     | MAYOR
-      { $$ = strdup(">"); }
+      {
+          $$ = strdup(">");
+      }
     | MENOR_IGUAL
-      { $$ = strdup("<="); }
+      {
+          $$ = strdup("<=");
+      }
     | MAYOR_IGUAL
-      { $$ = strdup(">="); }
+      {
+          $$ = strdup(">=");
+      }
     | IGUAL
-      { $$ = strdup("=="); }
+      {
+          $$ = strdup("==");
+      }
     | DIFERENTE
-      { $$ = strdup("!="); }
+      {
+          $$ = strdup("!=");
+      }
     ;
+
 expresion
     : expresion MAS termino
       {
@@ -224,6 +295,7 @@ expresion
           $$ = $1;
       }
     ;
+
 termino
     : termino POR factor
       {
@@ -238,6 +310,7 @@ termino
           $$ = $1;
       }
     ;
+
 factor
     : IDENTIFICADOR
       {
@@ -258,25 +331,38 @@ factor
       {
           $$ = ast_crear_numero($1);
       }
+    | CADENA
+      {
+          $$ = ast_crear_cadena($1);
+      }
     | PARENTESIS_ABRE expresion PARENTESIS_CIERRA
       {
           $$ = $2;
       }
     ;
+
 %%
 
 void yyerror(const char *mensaje) {
-    fprintf(stderr, "Error de sintaxis en la linea %d: %s\n", yylineno, mensaje);
+    fprintf(stderr,
+            "Error de sintaxis en la linea %d: %s\n",
+            yylineno,
+            mensaje);
+
     hubo_error = 1;
 }
 
 int main(int argc, char **argv) {
+
     if (argc < 2) {
-        fprintf(stderr, "Uso: %s archivo.da [salida.f1]\n", argv[0]);
+        fprintf(stderr,
+                "Uso: %s archivo.da [salida.f1]\n",
+                argv[0]);
         return 1;
     }
 
-    const char *archivo_salida = (argc >= 3) ? argv[2] : "F1Code.f1";
+    const char *archivo_salida =
+        (argc >= 3) ? argv[2] : "F1Code.f1";
 
     FILE *archivo = fopen(argv[1], "r");
 
@@ -292,6 +378,7 @@ int main(int argc, char **argv) {
     fclose(archivo);
 
     if (resultado == 0 && !hubo_error) {
+
         printf("\n=== AST ===\n");
         ast_imprimir(raiz, 0);
 
@@ -300,13 +387,18 @@ int main(int argc, char **argv) {
 
         printf("\n[OK] Programa valido.\n");
 
-        // Generar archivo F1Code (.f1)
+        /* Generar archivo F1Code */
+
         generate_f1code(raiz, archivo_salida);
+
+        ast_liberar(raiz);
 
         return 0;
     }
 
     printf("\n[Error] Programa invalido.\n");
+
+    ast_liberar(raiz);
 
     return 1;
 }
